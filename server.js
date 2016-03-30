@@ -1,5 +1,5 @@
 /**
- * Real-time Todolist application
+ * Real-time Todolist server application
  * 
  * @author: Christophe Malo
  * @version: 0.1.0
@@ -21,7 +21,7 @@ application.use(express.static('public'))
 // Display the todolist and the form
 .get('/todolist', function(request, response)
 {
-    response.sendFile(__dirname + '/index.html');
+    response.sendFile(__dirname + '/views/index.html');
 })
 
 // Redirects to todolist homepage if wrong page is called
@@ -31,32 +31,32 @@ application.use(express.static('public'))
 });
 
 
-// Manage the application sockets
+// Manage data exchange with sockets
 socketio.sockets.on('connection', function(socket)
 {
     console.log('User is connected'); // Debug user is connected
     //console.log(todolist); // Debug todolist array
     
-    socket.emit('updateTask', todolist); // When user is connected, send an update todolist
+    // When user is connected, send an update todolist
+    socket.emit('updateTask', todolist);
     
     // Adds task on the todolist
     socket.on('addTask', function(task)
     {
        task = ent.encode(task); // Protect from injection
-       todolist.push(task); // Update todolist array with the task
-       var index = todolist.length -1;
-       console.log(task); // Debug task
-       console.log(index);
+       todolist.push(task); // Update server todolist array with the task
        
-       socket.broadcast.emit('addTask', {index:index,task:task}); // Send task to all users
+       console.log(task); // Debug task
+       
+       socket.emit('updateTask', todolist); // Send task to all users
        console.log(todolist);
     });
     
     // Delete tasks
     socket.on('deleteTask', function(indexTask)
     {
-        todolist.splice(indexTask, 1); // Deletes task from the todolist array
-        socket.broadcast.emit('deleteTask', indexTask); // Update todolist of all users
+        todolist.splice(indexTask, 1); // Deletes task from the server todolist array
+        socket.emit('updateTask', todolist); // Update todolist of all users
     });
 });
 
