@@ -18,7 +18,7 @@ socket.on('updateTask', function(todolist) {
 $('#todolistForm').submit(function ()
 {
     var task = $('#task').val();
-    socket.emit('task', task); // sends task to server, server sends to all other clients connected
+    socket.emit('addTask', task); // sends task to server, server sends to all other clients connected
     console.log(task); // Debug
     insertTask(task); // Displays the task of the sender (in his todolist)
     $('#task').val('').focus(); // Empty the field task and put the focus on it
@@ -27,7 +27,7 @@ $('#todolistForm').submit(function ()
 
 
 // When receives new task, insert the task in the page
-socket.on('task', function(data)
+socket.on('addTask', function(data)
 {
     insertTask(data.task);
 });

@@ -49,7 +49,7 @@ socketio.sockets.on('connection', function(socket)
     socket.emit('updateTask', todolist);
     
     // Adds task on the todolist
-    socket.on('task', function(task)
+    socket.on('addTask', function(task)
     {
        task = ent.encode(task); // Protect from injection
        
@@ -57,7 +57,7 @@ socketio.sockets.on('connection', function(socket)
        console.log(task); // Debug task
        
        // Send task to all users
-       socket.broadcast.emit('task', {task: task});
+       socket.broadcast.emit('addTask', {task: task});
     });
 });
 
