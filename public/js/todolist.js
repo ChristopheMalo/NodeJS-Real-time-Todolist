@@ -42,3 +42,12 @@ function insertTask(task)
 {
     $('#todolist').append('<li><a href="#">✘</a> ' + task  + '</li>');
 }
+
+/**
+ * 
+ * @returns {undefined}
+ */
+function deleteTask()
+{
+    
+}
