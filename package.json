@@ -10,11 +10,7 @@
     "dependencies": {
         "socket.io": "~1.4.5",
         "express": "~4.13.4",
-        "ent": "~2.2.0",
-        "ejs": "~2.4.1",
-        "cookie-session": "~1.1.0",
-        "body-parser": "~1.15.0"
+        "ent": "~2.2.0"
     },
     "license": "MIT"
 }
-
