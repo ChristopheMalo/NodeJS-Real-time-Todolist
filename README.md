@@ -1,2 +1,3 @@
-# NodeJS-Real-time-Todolist
-A Real-time Todolist code with Nod.js, Express.js and socket.io
+# NodeJS Real-time Todolist appliczation
+ 
+A simple Real-time Todolist application code with Node.js, Express.js and socket.io
