@@ -2,27 +2,31 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Real-time Todolist app</title>
         
-        <!-- Call CSS -->
-        <link rel="stylesheet" type="text/css"  href="css/style.css" media="all">
+        <!-- Call Bootstrap -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     </head>
 
     <body>
-        <h1>Real-time Todolist app</h1>
-        
-        <!-- The todolist -->
-        <ul id="todolist"></ul>
-        
-        <!-- The form to add task -->
-        <form action="/todolist/add/" method="post" id="todolistForm">
-            <p>
-                <label for="task">My next task?</label>
-                <input type="text" name="task" id="task" placeholder="Your next task..." size="50" autofocus>
-                <input type="submit" id="sendTask" value="send">
-            </p>
-        </form>
+        <div class="container">
+            <div class="row">
+                <h1>Real-time Todolist app</h1>
 
+                <!-- The todolist -->
+                <ul id="todolist"></ul>
+
+                <!-- The form to add task -->
+                <form action="/todolist/add/" method="post" id="todolistForm">
+                    <div class="form-group">
+                        <label for="task">My next task?</label>
+                        <input type="text" class="form-control input-lg" name="task" id="task" placeholder="Your next task..." autofocus>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg" id="sendTask">Submit</button>
+                </form>
+            </div>
+        </div>
         <!-- Call JS files -->
         <script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
