@@ -9,8 +9,8 @@ var socket = io.connect('http://localhost:8080');
 
 // On first connect, retrieves all tasks
 socket.on('updateTask', function(todolist) {
-    todolist.forEach(function(task) {
-        insertTask(task);
+    todolist.forEach(function(index,task) {
+        insertTask(index,task);
     });
 });
 
@@ -29,18 +29,19 @@ $('#todolistForm').submit(function ()
 // When receives new task, insert the task in the page
 socket.on('addTask', function(data)
 {
-    insertTask(data.task);
+    insertTask(data.index,data.task);
 });
-
 
 /**
  * Add task in the page
- *
- * @param {object} task
+ * 
+ * @param {int} index
+ * @param {string} task
  */
-function insertTask(task)
+function insertTask(index,task)
 {
-    $('#todolist').append('<li><a href="#">✘</a> ' + task  + '</li>');
+    // Use data- attribute for position index in array
+    $('#todolist').append('<li id="' + index + '"><a href="#">✘</a> ' + task  + '</li>');
 }
 
 /**

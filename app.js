@@ -4,16 +4,16 @@
  * @author: Christophe Malo
  * @version: 0.1.0
  */
-var express = require('express'); // Loads Express.js framework
-var http = require('http'); // Loads http module
-var ent = require('ent'); // Loads security module as PHP htmlentities
+var express     = require('express'); // Loads Express.js framework
+var http        = require('http'); // Loads http module
+var ent         = require('ent'); // Loads security module as PHP htmlentities
 
 var application = express(); // Create application
-var server = http.createServer(application); // Create the server
+var server      = http.createServer(application); // Create the server
 
-var socketio = require('socket.io').listen(server); // Loads socket
+var socketio    = require('socket.io').listen(server); // Loads socket
 
-var todolist = []; // Create the todolist array to store tasks on server
+var todolist    = []; // Create the todolist array to store tasks on server
 
 // Use public folder for CSS and JS
 application.use(express.static('public'))
@@ -35,7 +35,7 @@ application.use(express.static('public'))
 socketio.sockets.on('connection', function(socket)
 {
     console.log('User is connected'); // Debug user is connected
-    console.log(todolist); // Debug todolist array
+    //console.log(todolist); // Debug todolist array
     
     socket.emit('updateTask', todolist); // When user is connected, send an update todolist
     
@@ -43,11 +43,13 @@ socketio.sockets.on('connection', function(socket)
     socket.on('addTask', function(task)
     {
        task = ent.encode(task); // Protect from injection
-       
        todolist.push(task); // Update todolist array with the task
+       var index = todolist.length -1;
        console.log(task); // Debug task
+       console.log(index);
        
-       socket.broadcast.emit('addTask', {task: task}); // Send task to all users
+       socket.broadcast.emit('addTask', {index:index,task:task}); // Send task to all users
+       console.log(todolist);
     });
     
     // Delete tasks
