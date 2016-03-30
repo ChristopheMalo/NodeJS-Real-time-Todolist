@@ -1,5 +1,6 @@
 /**
- * Real-time Todolist server application
+ * Real-time Todolist application
+ * The server file
  * 
  * @author: Christophe Malo
  * @version: 0.1.0
@@ -15,7 +16,7 @@ var socketio    = require('socket.io').listen(server); // Loads socket
 
 var todolist    = []; // Create the todolist array to store tasks on server
 
-// Use public folder for CSS and JS
+// Use public folder for JS file (Client)
 application.use(express.static('public'))
 
 // Display the todolist and the form
@@ -34,8 +35,7 @@ application.use(express.static('public'))
 // Manage data exchange with sockets
 socketio.sockets.on('connection', function(socket)
 {
-    console.log('User is connected'); // Debug user is connected
-    //console.log(todolist); // Debug todolist array
+    // console.log('User is connected'); // Debug user is connected
     
     // When user is connected, send an update todolist
     socket.emit('updateTask', todolist);
@@ -45,18 +45,17 @@ socketio.sockets.on('connection', function(socket)
     {
        task = ent.encode(task); // Protect from injection
        todolist.push(task); // Update server todolist array with the task
+       // console.log(task); // Debug task
        
-       console.log(task); // Debug task
-       
-       socket.emit('updateTask', todolist); // Send task to all users
-       console.log(todolist);
+       socketio.sockets.emit('updateTask', todolist); // Send task to all users in real-time
+       // console.log(todolist); // Debug
     });
     
     // Delete tasks
-    socket.on('deleteTask', function(indexTask)
+    socket.on('deleteTask', function(index)
     {
-        todolist.splice(indexTask, 1); // Deletes task from the server todolist array
-        socket.emit('updateTask', todolist); // Update todolist of all users
+        todolist.splice(index, 1); // Deletes task from the server todolist array
+        socketio.sockets.emit('updateTask', todolist); // Update todolist of all users in real-time
     });
 });
 
