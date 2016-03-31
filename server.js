@@ -36,7 +36,7 @@ application.use(express.static('public'))
 // Manage data exchange with sockets
 socketio.sockets.on('connection', function(socket)
 {
-    // console.log('User is connected'); // Debug user is connected
+    // console.log('User is connected'); // Debug user
     
     // When user is connected, send an update todolist
     socket.emit('updateTask', todolist);
@@ -45,11 +45,15 @@ socketio.sockets.on('connection', function(socket)
     socket.on('addTask', function(task)
     {
        task = ent.encode(task); // Protect from injection
-       todolist.push(task); // Update server todolist array with the task
-       // console.log(task); // Debug task
+       todolist.push(task); // Add task to server todolist array  
+       
+       // Get the index position of task in array - to give kind of id
        index = todolist.length -1;
-       console.log(index);
-       // socketio.sockets.emit('updateTask', todolist); // Send task to all users in real-time
+       
+       // console.log(task); // Debug task
+       // console.log(index); // Debug index
+        
+       // Send task to all users in real-time
        socket.broadcast.emit('addTask', {task:task, index:index});
        // console.log(todolist); // Debug
     });
@@ -57,8 +61,11 @@ socketio.sockets.on('connection', function(socket)
     // Delete tasks
     socket.on('deleteTask', function(index)
     {
-        todolist.splice(index, 1); // Deletes task from the server todolist array
-        socketio.sockets.emit('updateTask', todolist); // Update todolist of all users in real-time
+        // Deletes task from the server todolist array
+        todolist.splice(index, 1);
+        
+        // Updates todolist of all users in real-time - refresh index
+        socketio.sockets.emit('updateTask', todolist);
     });
 });
 

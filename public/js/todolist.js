@@ -42,7 +42,6 @@ socket.on('addTask', function(data) {
  */
 function insertTask(task, index)
 {
-    // var index = task.length - 1;
     // Use data- attribute for position index in array
     $('#todolist').append('<li><a class="delete" href="#" data-index="' + index + '">✘</a> ' + task  + '</li>');
 }
