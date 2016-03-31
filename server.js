@@ -15,7 +15,7 @@ var server      = http.createServer(application); // Create the server
 var socketio    = require('socket.io').listen(server); // Loads socket
 
 var todolist    = []; // Create the todolist array to store tasks on server
-var index;
+var index;            // A kind of id
 
 // Use public folder for JS file (Client)
 application.use(express.static('public'))
