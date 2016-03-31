@@ -15,6 +15,7 @@ var server      = http.createServer(application); // Create the server
 var socketio    = require('socket.io').listen(server); // Loads socket
 
 var todolist    = []; // Create the todolist array to store tasks on server
+var index;
 
 // Use public folder for JS file (Client)
 application.use(express.static('public'))
@@ -46,8 +47,10 @@ socketio.sockets.on('connection', function(socket)
        task = ent.encode(task); // Protect from injection
        todolist.push(task); // Update server todolist array with the task
        // console.log(task); // Debug task
-       
-       socketio.sockets.emit('updateTask', todolist); // Send task to all users in real-time
+       index = todolist.length -1;
+       console.log(index);
+       // socketio.sockets.emit('updateTask', todolist); // Send task to all users in real-time
+       socket.broadcast.emit('addTask', {task:task, index:index});
        // console.log(todolist); // Debug
     });
     
